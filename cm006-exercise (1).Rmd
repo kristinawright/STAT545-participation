@@ -1,7 +1,9 @@
 ---
 title: 'cm006: `dplyr` Exercise'
-output: html_notebook
-editor_options: 
+output:
+  html_document:
+    df_print: paged
+editor_options:
   chunk_output_type: inline
 ---
 <!---The following chunk allows errors when knitting--->
@@ -115,7 +117,6 @@ Now using with pipes: (easier to read code with pipes)
 gapminder %>% 
   select(year, lifeExp, country) %>%
   arrange(year, lifeExp)
-
 ```
 
 # Resume lecture 
@@ -128,21 +129,31 @@ Return to guide at section 6.7.
 
 ```{r}
 gapminder %>%
-  filter(FILL_THIS_IN)
+  filter(pop > 100000000)
 ```
 
-2. Your turn: of those rows filtered from step 1., only take data from Asia.
+2. Your turn: of those rows filtered from step 1., only take data from Asia.  3 ways below:
+no select because only takes certain rows
 
 ```{r}
 gapminder %>%
-  filter(FILL_THIS_IN)
+  filter(pop > 100000000,
+         continent == 'Asia')
+
+gapminder %>%
+  filter(continent == 'Asia') %>%
+  filter(pop > 100000000)
+
+gapminder %>%
+  filter(pop> 100000000 & continent =='Asia')
 ```
 
 3. Repeat 2, but take data from countries Brazil, and China. 
 
 ```{r}
 gapminder %>%
-  filter(FILL_THIS_IN)
+  filter(pop > 100000000,
+         country == 'Brazil' | country == 'China')
 ```
 
 ## `mutate()` (10 min)
@@ -154,30 +165,33 @@ Let's get:
 
 ```{r}
 gapminder %>%
-  mutate(FILL_THIS_IN)
+  mutate(gdpBill = gdpPercap*pop/1000000000)
 ```
 
 Notice the backwards compatibility! No need for loops!
 
-Try the same thing, but with `transmute` (drops all other variables). 
+Try the same thing, but with `transmute` (drops all other variables). And round to 2 digits after decimal.
 
 ```{r}
 gapminder %>%
-  transmute(FILL_THIS_IN)
+  transmute(gdpBill = (gdpPercap*pop/1000000000) %>% 
+              round(digits = 2))
 ```
 
 The `if_else` function is useful for changing certain elements in a data frame.
 
-Example: Suppose Canada's 1952 life expectancy was mistakenly entered as 68.8 in the data frame, but is actually 70. Fix it using `if_else` and `mutate`. 
+Example: Suppose Canada's 1952 life expectancy was mistakenly entered as 68.8 in the data frame, but is actually 70. Fix it using `if_else` and `mutate`. --> lifeExp to keep other values for else 
 
 ```{r}
 gapminder %>%
-  mutate(FILL_THIS_IN)
+  mutate(lifeExp = if_else(country == 'Canada' & year == 1952, 70, lifeExp))
 ```
 
 Your turn: Make a new column called `cc` that pastes the country name followed by the continent, separated by a comma. (Hint: use the `paste` function with the `sep=", "` argument).
 
 ```{r}
+gapminder %>%
+  mutate( cc = country + continent)
 ```
 
 These functions we've seen are called __vectorized functions__.
