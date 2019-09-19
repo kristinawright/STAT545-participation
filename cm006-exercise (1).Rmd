@@ -101,7 +101,7 @@ Demonstration:
 
 Here I want to combine `select()` Task 1 with `arrange()` Task 3.
 
-This is how I could do it by *nesting* the two function calls:
+This is how I could do it by *nesting* the two function calls: 
 
 ```{r nesting functions example, eval = F}
 # Nesting function calls can be hard to read
