@@ -18,7 +18,8 @@ install.packages("tsibble")
 
 Now run this code chunk to load the packages:
 
-```{r load packages, warning = FALSE}
+
+```r
 suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(gapminder))
 suppressPackageStartupMessages(library(scales))
@@ -28,15 +29,14 @@ knitr::opts_chunk$set(fig.align = "center")
 
 <!---The following chunk allows errors when knitting--->
 
-```{r allow errors, echo = FALSE}
-knitr::opts_chunk$set(error = TRUE)
-```
+
 
 ## Exercise 1: Bar Chart Grammar (Together)
 
 Consider the following plot. Don't concern yourself with the code at this point.
 
-```{r, fig.width = 5, fig.height = 2}
+
+```r
 gapminder %>% 
   filter(year == 2007) %>% 
   mutate(continent = fct_infreq(continent)) %>% 
@@ -44,6 +44,8 @@ gapminder %>%
   geom_bar() +
   theme_bw()
 ```
+
+<img src="cm005-exercise_files/figure-html/unnamed-chunk-1-1.png" style="display: block; margin: auto;" />
 
 Fill in the seven grammar components for this plot.
 
@@ -63,9 +65,27 @@ The following is a tsibble (a special type of tibble containing time series data
 
 Execute this code to store the data in `mauna`:
 
-```{r}
+
+```r
 (mauna <- tsibble::as_tsibble(co2) %>% 
    rename(month = index, conc = value))
+```
+
+```
+## # A tsibble: 468 x 2 [1M]
+##       month  conc
+##       <mth> <dbl>
+##  1 1959 Jan  315.
+##  2 1959 Feb  316.
+##  3 1959 Mar  316.
+##  4 1959 Apr  318.
+##  5 1959 May  318.
+##  6 1959 Jun  318 
+##  7 1959 Jul  316.
+##  8 1959 Aug  315.
+##  9 1959 Sep  314.
+## 10 1959 Oct  313.
+## # … with 458 more rows
 ```
 
 ### 2(a)
@@ -84,10 +104,13 @@ Produce a line chart showing the concentration over time. Specifically, the plot
 
 Fill in the blanks to obtain the plot:
 
-```{r, fig.width = 5, fig.height = 2}
+
+```r
 (p <- ggplot(mauna, aes(month, conc)) +
   geom_line())
 ```
+
+<img src="cm005-exercise_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
 
 ### 2(b)
 
@@ -98,29 +121,38 @@ It turns out that you're allowed to specify the aesthetic mappings in a `geom` l
 
 The following code mistakenly puts the month variable on the y-axis. Fill in the `FILL_THIS_IN` so that you still obtain the same result as above.
 
-```{r, fig.width = 5, fig.height = 2}
+
+```r
 ggplot(mauna, aes(y = month)) +
   geom_line(aes(month, conc)) +
   ylab("CO2")
 ```
 
+<img src="cm005-exercise_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
+
 ### 2(c)
 
 You can store the output of the plot in a variable, too. Store the plot from 2(a) in the variable named `p`, then add a layer to `p` that adds green points to the plot.
 
-```{r, fig.width = 5, fig.height = 2}
+
+```r
 p +
   geom_point(colour = "green", alpha = 0.2)
 ```
+
+<img src="cm005-exercise_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
 ### 2(d)
 
 What's wrong with the following code? Fix it.
 
-```{r, fig.width = 5, fig.height = 2}
+
+```r
 ggplot(gapminder) +
   geom_point(aes(x = gdpPercap, y = lifeExp), alpha = 0.1)
 ```
+
+<img src="cm005-exercise_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" />
 
 
 ### 2(e) BONUS
@@ -132,8 +164,13 @@ So you're a ggplot2 pro? Then, let's see this plot adapted to polar coordinates.
 
 The plot should look like a spiral, or concentric circles. 
 
-```{r, fig.width = 5, fig.height = 2}
+
+```r
 FILL_THIS_IN
+```
+
+```
+## Error in eval(expr, envir, enclos): object 'FILL_THIS_IN' not found
 ```
 
 
@@ -143,20 +180,26 @@ FILL_THIS_IN
 
 Fix the following plot (attribution: ["R for data science"](https://r4ds.had.co.nz/data-visualisation.html)).
 
-```{r, fig.width = 5, fig.height = 2}
+
+```r
 ggplot(mpg, aes(cty, hwy)) + 
   geom_point()
 ```
+
+<img src="cm005-exercise_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" />
 
 
 ### 3(b)
 
 Fix this plot so that it shows life expectancy over time _for each country_.
 
-```{r, fig.width = 5, fig.height = 2}
+
+```r
 ggplot(gapminder, aes(year, lifeExp)) +
     geom_line()
 ```
+
+<img src="cm005-exercise_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
 
 
 
@@ -165,7 +208,8 @@ ggplot(gapminder, aes(year, lifeExp)) +
 
 The following mock data set marks the (x,y) position of a caribou at four time points. Fix the plot below so that it shows the path of the caribou. Add an arrow with `arrow = arrow()`.
 
-```{r, fig.width = 5, fig.height = 2}
+
+```r
 motion <- tribble(
   ~time, ~x, ~y,
   1, 0.3, 0.3,
@@ -177,22 +221,30 @@ ggplot(motion, aes(x, y)) +
   geom_line()
 ```
 
+<img src="cm005-exercise_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" />
+
 ### 3(d)
 
 The following plot attempts to put both the raw data and boxplots together, but it's hard to see the raw data. Fix the plot.
 
-```{r, fig.width = 5, fig.height = 2}
+
+```r
 ggplot(gapminder, aes(continent, lifeExp)) +
   geom_point() +
   geom_boxplot()
 ```
 
+<img src="cm005-exercise_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" />
+
 ### 3(e)
 
 Change the following plot so that it shows _proportion_ on the y-axis, not count.
 
-```{r, fig.width = 5, fig.height = 2}
+
+```r
 ggplot(mtcars, aes(cyl)) +
   geom_bar()
 ```
+
+<img src="cm005-exercise_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" />
 

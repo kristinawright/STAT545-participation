@@ -145,7 +145,7 @@ gapminder %>%
   filter(pop > 100000000)
 
 gapminder %>%
-  filter(pop> 100000000 & continent =='Asia')
+  filter(pop> 100000000 & continent =='Asia') 
 ```
 
 3. Repeat 2, but take data from countries Brazil, and China. 
