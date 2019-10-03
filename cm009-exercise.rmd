@@ -121,9 +121,9 @@ email %>%
 
 ```{r}
 n <- 100
-FILL_THIS_IN(label = FILL_THIS_IN,
-             FILL_THIS_IN = rnorm(n),
-             FILL_THIS_IN)
+tibble(label = "Sample A",
+             x = rnorm(n),
+             y = x + rnorm(n))
 ```
 
 
@@ -141,6 +141,7 @@ FILL_THIS_IN(mu = mu, sd = sd) %>%
 
 3. Fix the `experiment` tibble below (originally defined in the documentation of the `tidyr::expand()` function) so that all three repeats are displayed for each person, and the measurements are kept. The code is given, but needs one adjustment. What is it?
 
+-expand function to complete fucntion change, and added nesting function adding parenthesis around name and trt:
 ```{r}
 experiment <- tibble(
   name = rep(c("Alex", "Robert", "Sam"), c(3, 2, 1)),
@@ -149,7 +150,7 @@ experiment <- tibble(
   measurement_1 = runif(6),
   measurement_2 = runif(6)
 )
-experiment %>% expand(name, trt, rep)
+experiment %>% complete(nesting(name, trt), rep)
 ```
 
 
