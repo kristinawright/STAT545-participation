@@ -41,7 +41,7 @@ download.file(url = data_url,
 
 
 #recommendation: Use "basename"
-file_name <- basename(data_url)
+file_name <- basename(data_url)  #keep file names the same
 ("test", basename(data_url)) #?
 
 
